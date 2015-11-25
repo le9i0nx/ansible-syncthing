@@ -1,0 +1,11 @@
+---
+
+- name: deb based distros
+  include: os_deb.yml
+  when: ansible_os_family == 'Debian'
+
+- name: other based distros
+  include: os_other.yml
+  when: ansible_os_family != 'Debian'
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

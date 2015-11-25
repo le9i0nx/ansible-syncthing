@@ -1,0 +1,23 @@
+---
+
+- apt_key:
+#    url: 'https://syncthing.net/release-key.txt'
+    data: "{{ lookup('file', 'apt.gpg') }}"
+    state: present
+
+- name: add repo
+  apt_repository:
+    repo: 'deb http://apt.syncthing.net/ syncthing release'
+    state: 'present'
+    update_cache: False
+
+- name: install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    install_recommends: False
+  with_flattened:
+    - 'syncthing'
+    - 'python-httplib2' # ansible url
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

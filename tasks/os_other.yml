@@ -1,0 +1,67 @@
+---
+
+- name: Create bin directories
+  file:
+    path:   '{{ item.path }}'
+    state:  '{{ item.state | default("directory") }}'
+    owner:  '{{ item.owner | default("root") }}'
+    group:  '{{ item.group | default("root") }}'
+    mode:   '{{ item.mode | default("0755") }}'
+  with_items:
+    - { path: '{{syncthing_path}}/', owner: '{{ syncthing_user }}', mode: '0755' }
+  when: (item.path is defined and item.path)
+
+- name: releases check
+  shell: 'wget -qO - "https://api.github.com/repos/syncthing/syncthing/releases" | grep "tag_name" | grep -v "-" | sed -n "1p" | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+"'
+  register: releases
+  changed_when: False
+
+- name: releases check install ver
+  shell: '{{syncthing_path}}/syncthing -version | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+" | sed -n "1p"'
+  register: releases_install
+  ignore_errors: yes
+  changed_when: False
+
+- name: releases set_fact
+  set_fact: syncthing_releases={{ releases.stdout }}
+
+- name: releases_install set_fact
+  set_fact: syncthing_releases_install={{ releases_install.stdout }}
+
+- name: download github tar.gz
+  get_url:
+    url: 'https://github.com/syncthing/syncthing/releases/download/v{{syncthing_releases}}/{{syncthing_http_file}}.tar.gz'
+    dest: '/root/{{syncthing_http_file}}.tar.gz'
+  when: syncthing_releases_install != syncthing_releases
+
+- name: extract tar.gz
+  unarchive:
+    copy: no
+    src: '/root/{{syncthing_http_file}}.tar.gz'
+    dest: "/root/"
+  when: syncthing_releases_install != syncthing_releases
+
+- name: cp bin
+  command: cp -f /root/{{syncthing_http_file}}/syncthing {{syncthing_path}}/syncthing
+  when: syncthing_releases_install != syncthing_releases
+  notify: [ 'Restart syncthing' ]
+
+- name: check chmod chowen
+  file:
+    path: '{{syncthing_path}}/syncthing'
+    owner: '{{ syncthing_user }}'
+    group: 'root'
+    mode: '0755'
+  notify: [ 'Restart syncthing' ]
+
+- name: install the systemd unit file
+  template:
+    src: 'etc/systemd/system/syncthing@.service.j2'
+    dest: '/etc/systemd/system/syncthing@.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when: ansible_local|d() and (ansible_local.init is undefined or
+        ansible_local.init in [ 'systemd' ])
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
