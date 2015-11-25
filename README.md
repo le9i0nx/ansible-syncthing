@@ -41,7 +41,7 @@ role_syncthing:
 
 ### Authors and license
 
-`dspam` role was written by:
+`syncthing` role was written by:
 - Aleksej Gavrilov | [e-mail](mailto:le9i0nx@gmail.com) | [GitHub](https://github.com/le9i0nx)
 
 License: [MIT](https://github.com/le9i0nx/ansible-syncthing/blob/master/LICENSE)
