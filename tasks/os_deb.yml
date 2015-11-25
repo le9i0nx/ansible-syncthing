@@ -9,7 +9,7 @@
   apt_repository:
     repo: 'deb http://apt.syncthing.net/ syncthing release'
     state: 'present'
-    update_cache: False
+    update_cache: True
 
 - name: install required packages
   apt:
