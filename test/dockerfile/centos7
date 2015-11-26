@@ -1,0 +1,28 @@
+# Dockerfile for building image that contains software stack provisioned by Ansible.
+#
+# Version  0.1
+#
+
+# pull base image
+FROM williamyeh/ansible:centos7-onbuild
+
+MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
+
+#
+# build phase
+#
+
+ENV PLAYBOOK test/test.yml
+RUN echo "===> Init test role..."  && \
+    rm -f /etc/ansible/hosts && \
+    ln -s $PWD/test/ansible/group_vars /etc/ansible/group_vars && \
+    ln -s $PWD/test/ansible/host_vars /etc/ansible/host_vars && \
+    ln -s $PWD/test/ansible/roles /etc/ansible/roles && \
+    ln -s $PWD/test/ansible/hosts /etc/ansible/hosts
+
+#
+# test phase
+#
+
+CMD ["sh", "/tmp/test/test.sh"]
+

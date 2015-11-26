@@ -1,0 +1,10 @@
+---
+
+- name: Configure syncthing
+  hosts: all
+  become: True
+  become_method: sudo
+
+  roles:
+    - role: 'le9i0nx.syncthing'
+

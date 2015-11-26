@@ -1,0 +1,8 @@
+---
+
+role_syncthing:
+  inventory_hosts: '{{ groups.all }}'
+  folders:
+    path: '/opt/'
+      id: 'opt'
+

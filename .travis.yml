@@ -12,7 +12,7 @@ env:
 before_install:
   - docker info
   - docker version
-  - docker build -f test/Dockerfile-$OS -t test-$OS .
+  - docker build -f test/dockerfile/$OS -t test-$OS .
 
 script:
   - docker run -i test-$OS
