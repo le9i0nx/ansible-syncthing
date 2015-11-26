@@ -5,16 +5,16 @@ services:
   - docker
 
 env:
-  - distributiv=ubuntu14.04
-  - distributiv=debian8
-  - distributiv=centos7
+  - OS=ubuntu14.04
+  - OS=debian8
+  - OS=centos7
 
 before_install:
   - docker info
   - docker version
-  - docker build -f test/Dockerfile-${distributiv} -t test-${distributiv} .
+  - docker build -f test/Dockerfile-$OS -t test-$OS .
 
 script:
-  - docker run -i test-${distributiv}
+  - docker run -i test-$OS
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
