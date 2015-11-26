@@ -13,13 +13,13 @@ MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
 #
 
 ENV PLAYBOOK test/test.yml
-RUN ansible-playbook-wrapper
 RUN ls -la
 RUN pwd
 RUN echo "===> Init test role..."  && \
     mkdir -p /etc/ansible/roles && \
     ln -s /test/group_vars /etc/ansible/group_vars && \
     ln -s /test/host_vars /etc/ansible/host_vars
+
 
 #
 # test phase
