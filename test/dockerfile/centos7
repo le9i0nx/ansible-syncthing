@@ -6,7 +6,7 @@ ENV LC_ALL C
 MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
 
 RUN yum -y update && \
-    yum -y install openssh-server && \
+    yum -y install sudo openssh-server && \
     yum clean all
 
 RUN systemctl mask \

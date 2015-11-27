@@ -5,8 +5,6 @@ export IP_LIST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $VM_L
 echo $IP_LIST
 for item in $IP_LIST
 do
-    echo $item
-    echo $item >> /etc/ansible/hosts
     ssh-keyscan -H $item >> ~/.ssh/known_hosts
     sshpass -p '000000' ssh-copy-id root@$item
 done
