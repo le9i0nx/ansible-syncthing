@@ -6,6 +6,17 @@ python: '2.7'
 services:
   - docker
 
+before_install:
+  - docker info
+  - docker version
+  - docker build -f test/dockerfile/debian8 -t test-debian8 .
+  - docker build -f test/dockerfile/centos7 -t test-centos7 .
+  - docker build -f test/dockerfile/ubuntu14.04 -t test-ubuntu14.04 .
+  - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
+  - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
+  - docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
+  - sudo apt-get install -qq sshpass
+
 script:
   - test/playbooks
 

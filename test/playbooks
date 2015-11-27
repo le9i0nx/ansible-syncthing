@@ -1,17 +1,6 @@
 #!/bin/bash
 
-docker info
-docker version
-docker build -f test/dockerfile/debian8 -t test-debian8 .
-docker build -f test/dockerfile/centos7 -t test-centos7 .
-docker build -f test/dockerfile/ubuntu14.04 -t test-ubuntu14.04 .
-
-docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
-docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
-docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
-
 sudo ln -s $PWD/test/ansible /etc/ansible
-sudo apt-get install sshpass
 ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
 export VM_LIST=`docker ps -q`
 export IP_LIST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $VM_LIST`
