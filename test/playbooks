@@ -13,9 +13,12 @@ docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
 sudo ln -s $PWD/test/ansible /etc/ansible
 sudo apt-get install sshpass
 ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
-export IP_LIST=docker inspect --format '{{ .NetworkSettings.IPAddress }}' `docker ps -q`
+export VM_LIST=`docker ps -q`
+export IP_LIST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $VM_LIST`
+echo $IP_LIST
 for item in $IP_LIST
 do
+    echo $item
     echo $item >> /etc/ansible/hosts
     ssh-keyscan -H $item >> ~/.ssh/known_hosts
     sshpass -p '000000' ssh-copy-id root@$item
