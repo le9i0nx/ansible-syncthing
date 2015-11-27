@@ -4,6 +4,7 @@
   hosts: all
   become: True
   become_method: sudo
+  remote_user: root
 
   roles:
     - role: 'test'
