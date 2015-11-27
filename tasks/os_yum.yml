@@ -4,7 +4,6 @@
   yum:
     name: '{{ item }}'
     state: 'present'
-    install_recommends: False
   with_flattened:
     - 'wget'
     - 'python-httplib2' # ansible url
