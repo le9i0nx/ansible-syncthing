@@ -26,6 +26,7 @@ before_install:
   - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
   - docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
   - sleep 10
+  - docker inspect --format '{{.Config.Image}} {{.NetworkSettings.IPAddress}}' `docker ps -q`
 
 script:
   - test/playbooks
