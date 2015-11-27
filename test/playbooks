@@ -10,12 +10,18 @@ docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-d
 docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
 docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
 
-ls -la $PWD
 sudo ln -s $PWD/test/ansible /etc/ansible
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' `docker ps -q` >> /etc/ansible/hosts
+sudo apt-get install sshpass
+ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
+export IP_LIST=docker inspect --format '{{ .NetworkSettings.IPAddress }}' `docker ps -q`
+for item in $IP_LIST
+do
+    echo $item >> /etc/ansible/hosts
+    ssh-keyscan -H $item >> ~/.ssh/known_hosts
+    sshpass -p '000000' ssh-copy-id root@$item
+done
+
 pip install ansible
 ansible --version
-ls -la /etc/
-ls -la /etc/ansible
 cat /etc/ansible/hosts
 ansible-playbook /etc/ansible/test.yml
