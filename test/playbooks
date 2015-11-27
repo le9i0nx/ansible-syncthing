@@ -12,8 +12,8 @@ docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
 
 ln -s test/ansible /etc/ansible
 docker inspect --format '{{ .NetworkSettings.IPAddress }}' `docker ps -q` >> /etc/ansible/hosts
-
-
 pip install ansible
 ansible --version
+ls -la /etc/ansible
+cat /etc/ansible/hosts
 ansible-playbook test/ansible/test.yml
