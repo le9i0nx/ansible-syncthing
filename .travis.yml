@@ -16,6 +16,7 @@ before_install:
   - sudo ln -s $PWD/test/ansible /etc/ansible
   - pip install ansible
   - ansible --version
+  - cat /etc/ansible/ansible.cfg
 
   - docker info
   - docker version
