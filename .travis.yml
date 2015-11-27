@@ -14,7 +14,7 @@ before_install:
   - sudo apt-get install -qq sshpass
   - ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
   - sudo ln -s $PWD/test/ansible /etc/ansible
-  - pip install ansible
+  - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
   - ansible --version
 
   - docker info
