@@ -1,0 +1,12 @@
+---
+
+- name: install required packages
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+    install_recommends: False
+  with_flattened:
+    - 'wget'
+    - 'python-httplib2' # ansible url
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

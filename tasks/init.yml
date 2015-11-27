@@ -4,6 +4,10 @@
   include: os_deb.yml
   when: ansible_os_family == 'Debian'
 
+- name: yum based distros
+  include: os_yum.yml
+  when: ansible_os_family == 'RedHat'
+
 - name: other based distros
   include: os_other.yml
   when: ansible_os_family != 'Debian'
