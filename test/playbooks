@@ -8,7 +8,9 @@ docker build -f test/dockerfile/ubuntu14.04 -t test-ubuntu14.04 .
 
 docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
 docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
-docker run -d -it test-ubuntu14.04
+docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
+
+ln -s test/ansible /etc/ansible
 
 pip install ansible
 ansible --version

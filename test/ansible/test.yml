@@ -6,5 +6,5 @@
   become_method: sudo
 
   roles:
-    - role: 'le9i0nx.syncthing'
+    - role: 'test'
 
