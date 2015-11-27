@@ -1,6 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
-RUN apt-get update  && \
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get update  && \
     apt-get dist-upgrade -y && \
     apt-get install -y \
         sudo openssh-server && \
