@@ -49,7 +49,7 @@
 - name: check chmod chowen
   file:
     path: '{{syncthing_path}}/syncthing'
-    owner: '{{ syncthing_user }}'
+    owner: '{{ role_syncthing_user }}'
     group: 'root'
     mode: '0755'
   notify: [ 'Restart syncthing' ]
