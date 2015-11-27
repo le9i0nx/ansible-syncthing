@@ -30,6 +30,7 @@ before_install:
   - for item in `docker inspect --format '{{ .NetworkSettings.IPAddress }}' \`docker ps -q\``; do ssh-keyscan -H $item >> ~/.ssh/known_hosts ; sshpass -p '000000' ssh-copy-id root@$item ; done
 
 script:
+  - ansible -m setup all
   - ansible-playbook /etc/ansible/test.yml --diff
 notifications:
   email:
