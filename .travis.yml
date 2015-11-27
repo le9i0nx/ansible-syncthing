@@ -16,7 +16,6 @@ before_install:
   - sudo ln -s $PWD/test/ansible /etc/ansible
   - pip install ansible
   - ansible --version
-  - cat /etc/ansible/ansible.cfg
 
   - docker info
   - docker version
@@ -29,10 +28,9 @@ before_install:
   - sleep 10
   - docker inspect --format '{{.Config.Image}} ansible_ssh_host={{.NetworkSettings.IPAddress}}' `docker ps -q` >> /etc/ansible/hosts
   - for item in `docker inspect --format '{{ .NetworkSettings.IPAddress }}' \`docker ps -q\``; do ssh-keyscan -H $item >> ~/.ssh/known_hosts ; sshpass -p '000000' ssh-copy-id root@$item ; done
-  - sleep 10
 
 script:
-  - ansible -m setup all
+  - ansible all -m setup -u root
   - ansible-playbook /etc/ansible/test.yml --diff
 notifications:
   email:
