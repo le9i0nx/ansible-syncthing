@@ -1,28 +1,37 @@
-# Dockerfile for building image that contains software stack provisioned by Ansible.
-#
-# Version  0.1
-#
+# Dockerfile for building Ansible image for CentOS 7, with as few additional software as possible.
 
-# pull base image
-FROM williamyeh/ansible:centos7-onbuild
+FROM centos:centos7
+ENV LC_ALL C
 
 MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
 
-#
-# build phase
-#
+RUN yum -y update && \
+    yum -y install openssh-server && \
+    yum clean all
 
-ENV PLAYBOOK test/test.yml
-RUN echo "===> Init test role..."  && \
-    rm -f /etc/ansible/hosts && \
-    ln -s $PWD/test/ansible/group_vars /etc/ansible/group_vars && \
-    ln -s $PWD/test/ansible/host_vars /etc/ansible/host_vars && \
-    ln -s $PWD/test/ansible/roles /etc/ansible/roles && \
-    ln -s $PWD/test/ansible/hosts /etc/ansible/hosts
+RUN systemctl mask \
+    systemd-remount-fs.service \
+    dev-hugepages.mount \
+    sys-fs-fuse-connections.mount \
+    systemd-logind.service \
+    getty.target \
+    console-getty.service \
+    dev-mqueue.mount \
+    sys-kernel-config.mount \
+    sys-kernel-debug.mount \
+    display-manager.service \
+    graphical.target
 
-#
-# test phase
-#
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "root:000000" | chpasswd
 
-CMD ["sh", "/tmp/test/test.sh"]
+VOLUME ["/sys/fs/cgroup"]
+VOLUME ["/run"]
+VOLUME ["/tmp"]
+ENV container=docker
+#ENV init /lib/systemd/systemd
+#ENTRYPOINT ["/lib/systemd/systemd"]
+CMD ["/usr/sbin/init"]
+#CMD  ["/usr/lib/systemd/systemd"]
+# docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
 

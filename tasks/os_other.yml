@@ -8,7 +8,7 @@
     group:  '{{ item.group | default("root") }}'
     mode:   '{{ item.mode | default("0755") }}'
   with_items:
-    - { path: '{{syncthing_path}}/', owner: '{{ syncthing_user }}', mode: '0755' }
+    - { path: '{{syncthing_path}}/', owner: '{{ role_syncthing_user }}', mode: '0755' }
   when: (item.path is defined and item.path)
 
 - name: releases check

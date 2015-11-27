@@ -1,28 +1,44 @@
-# Dockerfile for building image that contains software stack provisioned by Ansible.
-#
-# Version  0.1
-#
-
-# pull base image
-FROM williamyeh/ansible:ubuntu14.04-onbuild
-
+FROM ubuntu:14.04
 MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
+RUN apt-get update  && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \
+        sudo openssh-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*  /tmp/*
 
-#
-# build phase
-#
+ADD test/dockerfile/init-fake.conf /etc/init/fake-container-events.conf
+RUN rm /usr/sbin/policy-rc.d; \
+    rm /sbin/initctl; dpkg-divert --rename --remove /sbin/initctl
+RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+RUN /usr/sbin/update-rc.d -f ondemand remove; \
+    for f in \
+        /etc/init/u*.conf \
+        /etc/init/mounted-dev.conf \
+        /etc/init/mounted-proc.conf \
+        /etc/init/mounted-run.conf \
+        /etc/init/mounted-tmp.conf \
+        /etc/init/mounted-var.conf \
+        /etc/init/hostname.conf \
+        /etc/init/networking.conf \
+        /etc/init/tty*.conf \
+        /etc/init/plymouth*.conf \
+        /etc/init/hwclock*.conf \
+        /etc/init/module*.conf\
+    ; do \
+        dpkg-divert --local --rename --add "$f"; \
+    done; \
+    echo '# /lib/init/fstab: cleared out for bare-bones Docker' > /lib/init/fstab
 
-ENV PLAYBOOK test/test.yml
-RUN echo "===> Init test role..."  && \
-    rm -f /etc/ansible/hosts && \
-    ln -s $PWD/test/ansible/group_vars /etc/ansible/group_vars && \
-    ln -s $PWD/test/ansible/host_vars /etc/ansible/host_vars && \
-    ln -s $PWD/test/ansible/roles /etc/ansible/roles && \
-    ln -s $PWD/test/ansible/hosts /etc/ansible/hosts
+RUN sed -ri 's/^session\s+required\s+pam_loginuid.so$/session optional pam_loginuid.so/' /etc/pam.d/sshd
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "root:000000" | chpasswd
 
-#
-# test phase
-#
+ENV container docker
+CMD ["/sbin/init"]
 
-CMD ["sh", "/tmp/test/test.sh"]
+
+
+# docker run -d -it test-ubuntu14
+
 

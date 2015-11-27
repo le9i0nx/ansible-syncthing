@@ -1,28 +1,40 @@
-# Dockerfile for building image that contains software stack provisioned by Ansible.
-#
-# Version  0.1
-#
+# Dockerfile for building Ansible image for Debian 8 (jessie), with as few additional software as possible.
 
-# pull base image
-FROM williamyeh/ansible:debian8-onbuild
+FROM debian:jessie
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND noninteractive
 
 MAINTAINER Aleksej Gavrilov <le9i0nx@gmail.com>
 
-#
-# build phase
-#
 
-ENV PLAYBOOK test/test.yml
-RUN echo "===> Init test role..."  && \
-    rm -f /etc/ansible/hosts && \
-    ln -s $PWD/test/ansible/group_vars /etc/ansible/group_vars && \
-    ln -s $PWD/test/ansible/host_vars /etc/ansible/host_vars && \
-    ln -s $PWD/test/ansible/roles /etc/ansible/roles && \
-    ln -s $PWD/test/ansible/hosts /etc/ansible/hosts
+RUN apt-get update  && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \
+        sudo openssh-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*  /tmp/*
 
-#
-# test phase
-#
+RUN systemctl mask \
+    systemd-remount-fs.service \
+    dev-hugepages.mount \
+    sys-fs-fuse-connections.mount \
+    systemd-logind.service \
+    getty.target \
+    console-getty.service \
+    dev-mqueue.mount \
+    sys-kernel-config.mount \
+    sys-kernel-debug.mount \
+    display-manager.service \
+    graphical.target
 
-CMD ["sh", "/tmp/test/test.sh"]
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "root:000000" | chpasswd
+
+VOLUME ["/sys/fs/cgroup"]
+VOLUME ["/run"]
+VOLUME ["/tmp"]
+ENV container=docker
+ENV init /lib/systemd/systemd
+ENTRYPOINT ["/lib/systemd/systemd"]
+# docker run -d --privileged -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
 
