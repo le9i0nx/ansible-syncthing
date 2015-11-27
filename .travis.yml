@@ -6,9 +6,14 @@ python: '2.7'
 services:
   - docker
 
+virtualenv:
+    system_site_packages: true
+
 before_install:
-  - sudo apt-get update
+#  - sudo apt-get update
   - sudo apt-get install -qq sshpass
+  - sudo ln -s $PWD/test/ansible /etc/ansible
+  - ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
   - docker info
   - docker version
   - docker build -f test/dockerfile/debian8 -t test-debian8 .
@@ -17,9 +22,12 @@ before_install:
   - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
   - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
   - docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
+  - pip install ansible
+  - ansible --version
 
 script:
   - test/playbooks
+  - ansible-playbook /etc/ansible/test.yml --diff -vvvv
 
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

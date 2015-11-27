@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo ln -s $PWD/test/ansible /etc/ansible
-ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
 export VM_LIST=`docker ps -q`
 export IP_LIST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $VM_LIST`
 echo $IP_LIST
@@ -13,7 +11,3 @@ do
     sshpass -p '000000' ssh-copy-id root@$item
 done
 
-pip install ansible
-ansible --version
-cat /etc/ansible/hosts
-ansible-playbook /etc/ansible/test.yml
