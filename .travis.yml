@@ -7,6 +7,8 @@ services:
   - docker
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install -qq sshpass
   - docker info
   - docker version
   - docker build -f test/dockerfile/debian8 -t test-debian8 .
@@ -15,7 +17,6 @@ before_install:
   - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-debian8
   - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro test-centos7
   - docker run -d -it --name=ubuntu14.04 test-ubuntu14.04
-  - sudo apt-get install -qq sshpass
 
 script:
   - test/playbooks
