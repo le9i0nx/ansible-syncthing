@@ -29,6 +29,7 @@ before_install:
   - docker inspect --format '{{.Config.Image}} ansible_ssh_host={{.NetworkSettings.IPAddress}}' `docker ps -q` >> /etc/ansible/hosts
   - for item in `docker inspect --format '{{ .NetworkSettings.IPAddress }}' \`docker ps -q\``; do ssh-keyscan -H $item >> ~/.ssh/known_hosts ; sshpass -p '000000' ssh-copy-id root@$item ; done
   - ansible all -m setup -u root
+  - cat /etc/ansible/test.yml
 
 script:
   - ansible-playbook /etc/ansible/test.yml --diff
