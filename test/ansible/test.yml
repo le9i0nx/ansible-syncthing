@@ -7,5 +7,5 @@
   remote_user: root
 
   roles:
-    - role: 'test'
+      - role: 'le9i0nx.syncthing'
 
