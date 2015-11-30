@@ -9,3 +9,12 @@
   roles:
       - role: 'le9i0nx.syncthing'
 
+- name: Configure syncthing
+  hosts: all
+  become: True
+  become_method: sudo
+  remote_user: root
+
+  roles:
+      - role: 'le9i0nx.syncthing'
+      - role: 'le9i0nx.syncthing'
