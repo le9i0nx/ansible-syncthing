@@ -1,13 +1,13 @@
 ---
 
-- name: init
-  include: init.yml
-  when: role_syncthing_register_init is not defined
+- name: install
+  include: install.yml
+  when: role_syncthing_register_install is not defined
 
-- name: init register
+- name: install register
   set_fact:
-    role_syncthing_register_init: ""
-  when: role_syncthing_register_init is not defined
+    role_syncthing_register_install: ""
+  when: role_syncthing_register_install is not defined
 
 - name: register autostart service systemd
   service:
