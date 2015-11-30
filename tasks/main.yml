@@ -12,6 +12,8 @@
 - name: start
   include: start.yml
 
+- wait_for: port=8384 delay=10
+
 - name: config
   include: config.yml
   when: ((role_syncthing is defined ) and
