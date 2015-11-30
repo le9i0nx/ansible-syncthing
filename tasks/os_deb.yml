@@ -19,19 +19,4 @@
     - 'syncthing'
     - 'python-httplib2' # ansible url
 
-- name: install the upstart file
-  template:
-    src: 'etc/init/syncthing.conf.j2'
-    dest: '/etc/init/syncthing.conf'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "upstart" ]))
-
-- name: start syncthing
-  service: name=syncthing state=started
-  when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "upstart" ]))
-
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

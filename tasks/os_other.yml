@@ -52,18 +52,5 @@
     owner: '{{ role_syncthing_user }}'
     group: 'root'
     mode: '0755'
-  notify: [ 'Restart syncthing' ]
-
-- name: install the systemd unit file
-  template:
-    src: 'etc/systemd/system/syncthing@.service.j2'
-    dest: '/etc/systemd/system/syncthing@.service'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  notify:
-    - reload systemd
-  when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "systemd" ]))
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

@@ -9,16 +9,8 @@
     role_syncthing_register_install: ""
   when: role_syncthing_register_install is not defined
 
-- name: register autostart service systemd
-  service:
-    name: 'syncthing@{{ role_syncthing_user }}'
-    enabled: 'yes'
-    state: 'started'
-  notify: [ 'Restart syncthing' ]
-  when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "systemd" ]))
-
-- meta: flush_handlers
+- name: start
+  include: start.yml
 
 - name: config
   include: config.yml
@@ -26,6 +18,5 @@
          (role_syncthing.inventory_hosts is defined ) and
          (role_syncthing.folders.path is defined ) and
          (role_syncthing.folders.id is defined ))
-
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
