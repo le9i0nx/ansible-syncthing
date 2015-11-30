@@ -1,10 +1,10 @@
 #!/bin/sh
 
 USER={{role_syncthing_user}}
-SERVICE_NAME=syncthing_$USER
+SERVICE_NAME=syncthing_{{role_syncthing_user}}
 DAEMON="{{syncthing_path}}/syncthing"
 DAEMON_OPTS="-no-browser -logflags=0"
-PIDFILE=/var/run/syncthing_$USER.pid
+PIDFILE=/var/run/syncthing_{{role_syncthing_user}}.pid
 
 if [ ! -x $DAEMON ]; then
   echo "ERROR: Can't execute $DAEMON."

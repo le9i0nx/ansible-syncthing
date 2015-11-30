@@ -12,7 +12,7 @@
 - name: start
   include: start.yml
 
-- wait_for: port=8384 delay=10
+- wait_for: port=8384 delay=10 timeout=20
 
 - name: config
   include: config.yml
