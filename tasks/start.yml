@@ -31,7 +31,7 @@
     group: 'root'
     mode: '0755'
   notify:
-    - reload syncthing init.d
+    - restart syncthing init.d
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr != "systemd" ))
 
