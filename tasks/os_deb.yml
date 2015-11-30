@@ -1,7 +1,6 @@
 ---
 
 - apt_key:
-#    url: 'https://syncthing.net/release-key.txt'
     data: "{{ lookup('file', 'apt.gpg') }}"
     state: present
 
@@ -18,5 +17,9 @@
   with_flattened:
     - 'syncthing'
     - 'python-httplib2' # ansible url
+
+- name: variable redefinition
+  set_fact:
+    syncthing_path: "/usr/bin"
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
