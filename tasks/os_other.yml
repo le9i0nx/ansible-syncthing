@@ -61,7 +61,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  when: ansible_local|d() and (ansible_local.init is undefined or
-        ansible_local.init in [ 'systemd' ])
+  when: ((ansible_service_mgr is defined) and
+        (ansible_service_mgr in [ "systemd" ]))
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
