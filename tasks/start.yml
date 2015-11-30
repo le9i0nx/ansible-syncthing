@@ -18,24 +18,22 @@
     name: 'syncthing@{{ role_syncthing_user }}'
     enabled: 'yes'
     state: 'started'
-  notify: [ 'Restart syncthing' ]
+  notify:
+    - restart syncthing
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr in [ "systemd" ]))
 
-- name: install the upstart file
+- name: install the init.d file
   template:
-    src: 'etc/init/syncthing.conf.j2'
-    dest: '/etc/init/syncthing.conf'
+    src: 'etc/init.d/syncthing.j2'
+    dest: '/etc/init.d/syncthing_{{role_syncthing_user}}'
     owner: 'root'
     group: 'root'
-    mode: '0644'
+    mode: '0755'
+  notify:
+    - reload syncthing init.d
   when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "upstart" ]))
-
-- name: start syncthing
-  service: name=syncthing state=started
-  when: ((ansible_service_mgr is defined) and
-        (ansible_service_mgr in [ "upstart" ]))
+        (ansible_service_mgr != "systemd" ))
 
 - meta: flush_handlers
 
