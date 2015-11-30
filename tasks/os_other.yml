@@ -61,6 +61,8 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
+  notify:
+    - reload systemd
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr in [ "systemd" ]))
 
