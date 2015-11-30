@@ -10,24 +10,13 @@ virtualenv:
     system_site_packages: true
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -qq sshpass
-  - ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
   - sudo ln -s $PWD/test/ansible /etc/ansible
   - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
   - ansible --version
 
-  - docker info
-  - docker version
-  - docker build -f test/dockerfile/debian8 -t debian8 .
-  - docker build -f test/dockerfile/centos7 -t centos7 .
-  - docker build -f test/dockerfile/ubuntu14.04 -t ubuntu14.04 .
-  - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro debian8
-  - docker run -d --cap-add=SYS_ADMIN -it -v /sys/fs/cgroup:/sys/fs/cgroup:ro centos7
-  - docker run -d -it ubuntu14.04
-  - sleep 10
-  - docker inspect --format '{{.Config.Image}} ansible_ssh_host={{.NetworkSettings.IPAddress}}' `docker ps -q` >> /etc/ansible/hosts
-  - for item in `docker inspect --format '{{ .NetworkSettings.IPAddress }}' \`docker ps -q\``; do ssh-keyscan -H $item >> ~/.ssh/known_hosts ; sshpass -p '000000' ssh-copy-id root@$item ; done
+  - git clone --depth 1 https://github.com/le9i0nx/ansible-role-test
+  - python ansible-role-test/bin/virt.py
+
   - ansible all -m setup -u root
   - ansible-playbook /etc/ansible/test.yml --diff
 
