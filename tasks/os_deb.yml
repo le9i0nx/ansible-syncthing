@@ -28,6 +28,10 @@
     mode: '0644'
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr in [ "upstart" ]))
-  notify: [ 'Restart syncthing upstart' ]
+
+- name: start syncthing
+  service: name=syncthing state=started
+  when: ((ansible_service_mgr is defined) and
+        (ansible_service_mgr in [ "upstart" ]))
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

@@ -3,5 +3,3 @@
 - name: Restart syncthing
   shell: systemctl restart syncthing@{{ role_syncthing_user }}.service
 
-- name: Restart syncthing upstart
-  shell: initctl reload-configuration && initctl restart syncthing
