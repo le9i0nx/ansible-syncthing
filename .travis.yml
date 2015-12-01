@@ -10,6 +10,7 @@ virtualenv:
     system_site_packages: true
 
 before_install:
+  - env
   - sudo ln -s $PWD/test/ansible /etc/ansible
   - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
   - ansible --version
