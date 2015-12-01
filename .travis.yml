@@ -11,12 +11,15 @@ virtualenv:
 
 before_install:
   - env
-  - sudo ln -s $PWD/test/ansible /etc/ansible
-  - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
-  - ansible --version
+  - docker info
+  - docker version
 
   - git clone --depth 1 https://github.com/le9i0nx/ansible-role-test
+  - git clone --depth 1 https://github.com/le9i0nx/ansible-role-data test
   - python ansible-role-test/bin/virt.py
+
+  - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
+  - ansible --version
 
   - ansible all -m setup -u root
   - ansible-playbook /etc/ansible/test.yml --diff
