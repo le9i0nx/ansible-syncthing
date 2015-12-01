@@ -7,4 +7,4 @@
   shell: systemctl daemon-reload
 
 - name: restart syncthing init.d
-  service: name=syncthing_{{role_syncthing_user}} state=started
+  shell: /etc/init.d/syncthing_{{role_syncthing_user}} restart
