@@ -23,7 +23,7 @@
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr in [ "systemd" ]))
 
-- name: install the init.d file
+- name: copy the init.d file
   template:
     src: 'etc/init.d/syncthing.j2'
     dest: '/etc/init.d/syncthing_{{role_syncthing_user}}'
@@ -33,6 +33,13 @@
   notify:
     - restart syncthing init.d
   when: ((ansible_service_mgr is defined) and
+        (ansible_service_mgr != "systemd" ))
+  register: role_syncthing_install_init
+
+- name: install the init.d file
+  shell: update-rc.d syncthing_{{role_syncthing_user}} defaults
+  when: ((role_syncthing_install_init) and
+        (ansible_service_mgr is defined) and
         (ansible_service_mgr != "systemd" ))
 
 - meta: flush_handlers
