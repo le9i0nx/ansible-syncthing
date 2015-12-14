@@ -2,8 +2,8 @@
 
 USER={{role_syncthing_user}}
 SERVICE_NAME=syncthing_{{role_syncthing_user}}
-DAEMON="{{syncthing_path}}/syncthing"
-DAEMON_OPTS="-no-browser -logflags=0"
+DAEMON="su"
+DAEMON_OPTS="-l {{role_syncthing_user}} {{syncthing_path}}/syncthing -no-browser -logflags=0"
 PIDFILE=/var/run/syncthing_{{role_syncthing_user}}.pid
 
 if [ ! -x $DAEMON ]; then
@@ -13,7 +13,7 @@ fi
 
 start_service() {
   echo -n " * Starting $SERVICE_NAME... "
-  start-stop-daemon -Sq -u $USER -p $PIDFILE -x $DAEMON -- $DAEMON_OPTS
+  start-stop-daemon -Sq -p $PIDFILE -x $DAEMON -- $DAEMON_OPTS
   e=$?
   if [ $e -eq 1 ]; then
     echo "already running"
