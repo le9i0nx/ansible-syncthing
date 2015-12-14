@@ -9,6 +9,10 @@ services:
 virtualenv:
     system_site_packages: true
 
+env:
+  - ANSIBLE_VER=v2.0.0-0.6.rc1
+  - ANSIBLE_VER=v2.0.0-0.7.rc1
+
 before_install:
   - env
   - docker info
@@ -18,7 +22,7 @@ before_install:
   - git clone --depth 1 https://github.com/le9i0nx/ansible-role-data test
   - python ansible-role-test/bin/virt.py
 
-  - pip install git+https://github.com/ansible/ansible.git@v2.0.0-0.6.rc1
+  - pip install git+https://github.com/ansible/ansible.git@$ANSIBLE_VER
   - ansible --version
 
   - ansible all -m setup -u root
