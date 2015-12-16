@@ -4,7 +4,7 @@
 
 ### Installation
 
-This role requires at least Ansible `v2.0.0-rc6`. To install it, run:
+This role requires at least Ansible `v2.0.0-0.7.rc2`. To install it, run:
 
     ansible-galaxy install le9i0nx.syncthing
 
