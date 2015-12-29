@@ -16,10 +16,10 @@ env:
 before_install:
   - env
   - docker info
-  - docker version
+  - docker version
 
   - git clone --depth 1 https://github.com/le9i0nx/ansible-role-test
-  - git clone --depth 1 https://github.com/le9i0nx/ansible-role-data test
+  - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-role-data test
   - python ansible-role-test/bin/virt.py
 
   - pip install git+https://github.com/ansible/ansible.git@$ANSIBLE_VER
