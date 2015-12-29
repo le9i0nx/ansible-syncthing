@@ -16,7 +16,7 @@ env:
 before_install:
   - env
   - docker info
-  - docker version
+  - docker version
 
   - git clone --depth 1 https://github.com/le9i0nx/ansible-role-test
   - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-role-data test
