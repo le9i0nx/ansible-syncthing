@@ -44,5 +44,5 @@ role_syncthing:
 `syncthing` role was written by:
 - Aleksej Gavrilov | [e-mail](mailto:le9i0nx@gmail.com) | [GitHub](https://github.com/le9i0nx)
 
-License: [MIT](https://github.com/le9i0nx/ansible-syncthing/blob/master/LICENSE)
+License: [GPLv3](https://github.com/le9i0nx/ansible-syncthing/blob/master/LICENSE)
 

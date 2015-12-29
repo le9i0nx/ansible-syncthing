@@ -35,5 +35,4 @@ notifications:
   email:
     on_failure: change
 
-
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
