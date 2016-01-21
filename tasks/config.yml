@@ -1,5 +1,16 @@
 ---
 
+- name: Create directories
+  file:
+    path:   '{{ item.path }}'
+    state:  '{{ item.state  | default("directory") }}'
+    owner:  '{{ item.owner  | default("root") }}'
+    group:  '{{ item.group  | default("root") }}'
+    mode:   '{{ item.mode   | default("0755") }}'
+  with_items:
+    - { path: '{{role_syncthing.folders.path}}', owner: 'role_syncthing_user' }
+  when: (item.path is defined and item.path)
+
 - name: get system config
   uri:
     url: "http://{{role_syncthing_api}}/rest/system/config"
