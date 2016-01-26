@@ -20,4 +20,23 @@ syncthing_architecture: {"x86_64": "amd64", "x86": "386"}
 syncthing_system: {"Linux":"linux"}
 syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthing_architecture[ansible_architecture] }}-v{{syncthing_releases}}'
 
+# .. envvar:: syncthing_ferm_dependent_rules
+#
+# Configuration for ``iptables`` firewall managed by ``ferm``.
+syncthing_ferm_dependent_rules:
+
+  - type: 'accept'
+    dport: [ '22000' ]
+    protocol: [ 'tcp' ]
+    role: 'syncthing'
+    name: 'syncthing_tcp'
+    accept_any: True
+
+  - type: 'accept'
+    dport: [ '22027' ]
+    protocol: [ 'udp' ]
+    role: 'syncthing'
+    name: 'syncthing_udp'
+    accept_any: True
+
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
