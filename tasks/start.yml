@@ -11,7 +11,8 @@
     - reload systemd
   when: ((ansible_service_mgr is defined) and
         (ansible_service_mgr in [ "systemd" ]) and
-        (ansible_pkg_mgr != "apt"))
+        (ansible_pkg_mgr != "apt") and
+        (ansible_distribution != "Debian" ))
 
 - name: register autostart service systemd
   service:
