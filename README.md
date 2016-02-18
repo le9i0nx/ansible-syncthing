@@ -10,20 +10,7 @@ This role requires at least Ansible `v2.0.0.1-1`. To install it, run:
 
 ### Documentation
 
-playbook
-```
----
-
-- name: syncthing install pve
-  hosts: pve
-  become: True
-  become_method: sudo
-
-  roles:
-
-    - role: le9i0nx.syncthing
-      tags: [ 'role::syncthing', 'syncthing' ]
-```
+[playbook](https://github.com/le9i0nx/ansible-root/blob/master/service/syncthing.yml)
 
 cat ./group_vars/pve.yml
 ```

@@ -1,14 +1,5 @@
 ---
 
-- apt_key:
-    data: "{{ lookup('file', 'apt.gpg') }}"
-    state: present
-
-- name: add repo
-  apt_repository:
-    repo: 'deb http://apt.syncthing.net/ syncthing release'
-    state: 'present'
-
 - name: install required packages
   apt:
     name: '{{ item }}'

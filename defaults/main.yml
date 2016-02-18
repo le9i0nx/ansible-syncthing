@@ -28,15 +28,25 @@ syncthing_ferm_dependent_rules:
   - type: 'accept'
     dport: [ '22000' ]
     protocol: [ 'tcp' ]
-    role: 'syncthing'
-    name: 'syncthing_tcp'
+    role: 'le9i0nx.syncthing'
+    name: 'tcp'
     accept_any: True
 
   - type: 'accept'
     dport: [ '22027' ]
     protocol: [ 'udp' ]
-    role: 'syncthing'
-    name: 'syncthing_udp'
+    role: 'le9i0nx.syncthing'
+    name: 'udp'
     accept_any: True
+
+# apt-key adv --list-public-keys --with-fingerprint --with-colons
+syncthing_repositories_key:
+
+  - id: "37C84554E7E0A261E4F76E1ED26E6ED000654A3E"
+    keyserver: "pgp.mit.edu"
+
+syncthing_repositories:
+
+  - repo: 'deb http://apt.syncthing.net/ syncthing release'
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
