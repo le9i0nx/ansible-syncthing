@@ -42,8 +42,7 @@ syncthing_ferm_dependent_rules:
 # apt-key adv --list-public-keys --with-fingerprint --with-colons
 syncthing_repositories_key:
 
-  - id: "37C84554E7E0A261E4F76E1ED26E6ED000654A3E"
-    keyserver: "pgp.mit.edu"
+  - url: "https://syncthing.net/release-key.txt"
 
 syncthing_repositories:
 
