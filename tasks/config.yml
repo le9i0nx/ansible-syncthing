@@ -26,7 +26,7 @@
 - name: list devices of folders
   set_fact:
     syncthing_devices: "{% if syncthing_devices is defined %}{% for i in syncthing_devices %}{% if i.deviceID != hostvars[item].syncthing_myID %}[{{i}}] + {% endif %}{% endfor %}{% endif %}[ { u'deviceID': '{{hostvars[item].syncthing_myID}}', u'name': '{{hostvars[item].ansible_hostname}}' } ]"
-  with_items: role_syncthing.inventory_hosts
+  with_items: "{{ role_syncthing.inventory_hosts }}"
   when: hostvars[item].syncthing_myID is defined
 
 - name: add devices
@@ -46,19 +46,19 @@
         u'addresses': [
           u'dynamic'
         ]}]}"
-  with_items: syncthing_devices
+  with_items: "{{ syncthing_devices }}"
   when: item.deviceID != syncthing_myID
 
 - name: list id folders
   set_fact:
     syncthing_list: "{{item.devices}}"
-  with_items: syncthing_config.folders
+  with_items: "{{ syncthing_config.folders }}"
   when: item.id == role_syncthing.folders.id
 
 - name: list devices of folders
   set_fact:
     syncthing_list: "{% if syncthing_list is defined %}{% for i in syncthing_list %}{% if i.deviceID != hostvars[item].syncthing_myID %}[{{i}}] + {% endif %}{% endfor %}{% endif %}[ { u'deviceID': '{{hostvars[item].syncthing_myID}}' } ]"
-  with_items: role_syncthing.inventory_hosts
+  with_items: "{{ role_syncthing.inventory_hosts }}"
   when: hostvars[item].syncthing_myID is defined
 
 - name: add folders
