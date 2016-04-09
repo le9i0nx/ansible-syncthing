@@ -14,6 +14,11 @@
 
 - wait_for: port=8384 delay=3 timeout=5
 
+- name: config
+  include: config.yml
+  when: ((role_syncthing_data is defined) and
+         (role_syncthing_data.forders is defined))
+
 - name: config_old
   include: config_old.yml
   when: ((role_syncthing is defined ) and

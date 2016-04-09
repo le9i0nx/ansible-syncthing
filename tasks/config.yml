@@ -1,0 +1,31 @@
+---
+
+- name: get system config
+  uri:
+    url: "http://{{role_syncthing_api}}/rest/system/config"
+    return_content: yes
+  register: syncthing_config_raw
+  always_run: yes
+
+- name: set syncthing_(config,config_old,myID)
+  set_fact:
+    syncthing_config: "{{syncthing_config_raw.content|from_json}}"
+    syncthing_config_old: "{{syncthing_config_raw.content|from_json}}"
+    syncthing_myID: "{{ syncthing_config_raw.x_syncthing_id }}"
+
+- name: Create directories
+  file:
+    path:   '{{ item.path }}'
+    state:  '{{ item.state  | default("directory") }}'
+    owner:  '{{ role_syncthing_user }}'
+    group:  '{{ item.group  | default("root") }}'
+    mode:   '{{ item.mode   | default("0755") }}'
+  with_items: "{{ role_syncthing_data.forders }}"
+  when: ((item.path is defined)
+        {% if item.devices_del is defined %}
+          {% for i in item.devices_del %}
+            and ( "{{ syncthing_myID }}" not in "{{ i }}" )
+          {% endfor %}
+        {% endif %} )
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
