@@ -10,9 +10,6 @@ virtualenv:
     system_site_packages: true
 
 env:
-  - ANSIBLE_VER=v2.0.1.0-1
-  - ANSIBLE_VER=v2.0.2.0-0.2.rc2
-  - ANSIBLE_VER=v2.0.2.0-0.3.rc3
   - ANSIBLE_VER=v2.0.2.0-0.4.rc4
 
 before_install:
