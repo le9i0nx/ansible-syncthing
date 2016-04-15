@@ -9,9 +9,10 @@
 
 - name: set syncthing_(config,config_old,myID)
   set_fact:
-    syncthing_config: "{{syncthing_config_raw.content|from_json}}"
-    syncthing_config_old: "{{syncthing_config_raw.content|from_json}}"
+    syncthing_config: "{{ syncthing_config_raw.content | from_json }}"
+    syncthing_config_old: "{{ syncthing_config_raw.content | from_json }}"
     syncthing_myID: "{{ syncthing_config_raw.x_syncthing_id }}"
+    syncthing_config_deviceID: ""
 
 - name: Create directories
   file:
@@ -28,53 +29,26 @@
           {% endfor %}
         {% endif %} )
 
-- debug:
-    var:
-      syncthing_config
-
-- name: modify folders
+- name: Make lists deviceID
   set_fact:
-    syncthing_config: "{
-      u'gui': {{syncthing_config.gui}},
-      u'version': {{syncthing_config.version}},
-      u'ignoredDevices': {{syncthing_config.ignoredDevices}},
-      u'options': {{syncthing_config.options}},
-      u'devices': {{syncthing_config.devices}},
-      u'folders': {%for i in syncthing_config.folders %}{% if i.id != item.id %}[{{i}}] + {% endif %}{% endfor %} [{
-        u'id': '{{item.id}}',
-        u'path': u'{{item.path}}',
-        u'devices': [],
-        u'autoNormalize': True,
-        u'ignoreDelete': False,
-        u'ignorePerms': False,
-        u'readOnly': False,
-        u'copiers': 0,
-        u'hashers': 0,
-        u'invalid': u'',
-        u'maxConflicts': -1,
-        u'minDiskFreePct': 1,
-        u'order': u'random',
-        u'pullerPauseS': 0,
-        u'pullerSleepS': 0,
-        u'pullers': 0,
-        u'rescanIntervalS': 60,
-        u'scanProgressIntervalS': 0,
-        u'versioning': {
-          u'params': {},
-          u'type': u''
-        } }]}"
+    syncthing_config_deviceID: "{{ lookup('template', 'lookup/syncthing_config_deviceID.j2') | from_yaml }}"
   with_items: "{{ role_syncthing_data.folders }}"
+  when: ((item.path is defined)
+        {% if item.devices_del is defined %}
+          {% for i in item.devices_del %}
+            and ( "{{ syncthing_myID }}" not in "{{ i }}" )
+          {% endfor %}
+        {% endif %} )
 
 
-#- name: modify folders
-#  set_fact:
-#    syncthing_config: "{ {{ lookup('template', 'lookup/modify_folders.j2') }} }"
-#  with_items: "{{ role_syncthing_data.folders }}"
+
+
+
+
+
 
 - debug:
     var:
-      syncthing_config
-  when: syncthing_config != syncthing_config_old
-
+      syncthing_config_deviceID
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
