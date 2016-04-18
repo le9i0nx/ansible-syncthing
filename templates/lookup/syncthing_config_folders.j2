@@ -1,0 +1,56 @@
+  u'gui': {{syncthing_config.gui}},
+  u'version': {{syncthing_config.version}},
+  u'ignoredDevices': {{syncthing_config.ignoredDevices}},
+  u'options': {{syncthing_config.options}},
+  u'devices': [],
+  u'folders':
+{%  for i in syncthing_config.folders %}{% if i.id != item.id %}[{{i}}] + {% endif %}{% endfor %}
+
+{%  set not_install_folders = [] %}
+{%  if item.devices_del is defined %}
+{%    for x in item.devices_del %}
+{%      for y in x %}
+{%        if syncthing_myID == y.id %}
+{%          set _ = not_install_folders.append(1) %}
+{%        endif %}
+{%      endfor %}
+{%    endfor %}
+{%  endif %}
+{%  if not not_install_folders %}
+[{
+    u'id': '{{item.id}}',
+    u'path': u'{{item.path}}',
+    u'devices':
+{%  for i in syncthing_config_deviceID %}
+{%    for z in i %}
+{%      if z == item.id %}
+{%        for x in i[z] %}
+      [{ u'deviceID': u'{{x}}' }] +
+{%        endfor %}
+{%      endif %}
+{%    endfor %}
+{%  endfor %}
+      [],
+    u'autoNormalize': True,
+    u'ignoreDelete': False,
+    u'ignorePerms': False,
+    u'readOnly': False,
+    u'copiers': 0,
+    u'hashers': 0,
+    u'invalid': u'',
+    u'maxConflicts': -1,
+    u'minDiskFreePct': 1,
+    u'order': u'random',
+    u'pullerPauseS': 0,
+    u'pullerSleepS': 0,
+    u'pullers': 0,
+    u'rescanIntervalS': 60,
+    u'scanProgressIntervalS': 0,
+    u'versioning': {
+      u'params': {},
+      u'type': u''
+    }
+}]
+{%  else%}
+[]
+{%  endif %}

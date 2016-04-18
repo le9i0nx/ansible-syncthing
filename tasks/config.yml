@@ -13,6 +13,7 @@
     syncthing_config_old: "{{ syncthing_config_raw.content | from_json }}"
     syncthing_myID: "{{ syncthing_config_raw.x_syncthing_id }}"
     syncthing_config_deviceID: ""
+    syncthing_config_devices: ""
 
 - name: Create directories
   file:
@@ -40,15 +41,23 @@
           {% endfor %}
         {% endif %} )
 
+- name: Make folders
+  set_fact:
+    syncthing_config: "{ {{ lookup('template', 'lookup/syncthing_config_folders.j2') }} }"
+  with_items: "{{ role_syncthing_data.folders }}"
+  when: (item.path is defined)
 
+- name: Read all activ deviceID
+  set_fact:
+    syncthing_devices: "{{ lookup('template', 'lookup/syncthing_devices.j2') | from_yaml | unique }}"
 
-
-
-
-
+- name: Make activ deviceID
+  set_fact:
+    syncthing_config: "{ {{ lookup('template', 'lookup/syncthing_deviceID.j2') }} }"
+  with_items: "{{ syncthing_devices }}"
 
 - debug:
     var:
-      syncthing_config_deviceID
+      syncthing_config
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

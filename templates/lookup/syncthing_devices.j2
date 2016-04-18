@@ -1,0 +1,5 @@
+{%  for z in syncthing_config.folders %}
+{%    for x in z.devices %}
+  - {{x.deviceID}}
+{%    endfor %}
+{%  endfor %}

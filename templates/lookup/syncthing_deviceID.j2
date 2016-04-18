@@ -1,0 +1,26 @@
+  u'gui': {{syncthing_config.gui}},
+  u'version': {{syncthing_config.version}},
+  u'ignoredDevices': {{syncthing_config.ignoredDevices}},
+  u'options': {{syncthing_config.options}},
+  u'folders': {{syncthing_config.folders}},
+  u'devices': {{syncthing_config.devices}} +
+{%  set not_deviceID  = [] %}
+{%  for i in syncthing_config_old.devices %}
+{%    if i.deviceID == item %}
+{%      set _ = not_deviceID.append(1) %}
+[{{i}}] +
+{%    endif %}
+{%  endfor %}
+{%  if not not_deviceID %}
+[{
+    u'compression': u'always',
+    u'certName': u'',
+    u'introducer': False,
+    u'addresses': [
+      u'dynamic'
+    ],
+    u'deviceID': u'{{item}}',
+    u'name': u'{{item}}'
+}] +
+{%  endif %}
+[]
