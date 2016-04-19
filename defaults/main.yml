@@ -9,11 +9,6 @@ role_syncthing_api: '127.0.0.1:8384'
 # .. envvar:: role_syncthing_data
 #
 role_syncthing_data:
-  devices_del:
-    - id: ""
-  devices_add:
-    - id: ""
-      name: ""
   forders:
     - inventory_hosts: '{{ groups.syncthing }}'
       path: '/root/Sync'
@@ -22,14 +17,6 @@ role_syncthing_data:
         - id: ""
       devices_del:
         - id: ""
-
-# The variables to be adjusted.
-# It is necessary to specify in their host_var or group_var for in the playbook
-#role_syncthing:
-#  inventory_hosts: '{{ groups.syncthing }}'
-#  folders:
-#    path: '/opt/'
-#    id: 'opt'
 
 #old
 syncthing_path: '/usr/local/bin'
