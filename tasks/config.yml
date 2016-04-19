@@ -64,6 +64,7 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
     body: "{{ syncthing_config | to_json }}"
+    body_format: "json"
   when: syncthing_config != syncthing_config_old
 
 - name: syncthing restart
