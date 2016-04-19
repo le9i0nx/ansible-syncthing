@@ -56,8 +56,22 @@
     syncthing_config: "{ {{ lookup('template', 'lookup/syncthing_deviceID.j2') }} }"
   with_items: "{{ syncthing_devices }}"
 
-- debug:
-    var:
-      syncthing_config
+- name: post config
+  uri:
+    url: "http://{{role_syncthing_api}}/rest/system/config"
+    method: POST
+    return_content: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
+    body: "{{ syncthing_config | to_json }}"
+  when: syncthing_config != syncthing_config_old
+
+- name: syncthing restart
+  uri:
+    url: "http://{{role_syncthing_api}}/rest/system/restart"
+    method: POST
+    return_content: yes
+    HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
+  when: syncthing_config != syncthing_config_old
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

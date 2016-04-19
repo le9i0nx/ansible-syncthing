@@ -19,11 +19,4 @@
   when: ((role_syncthing_data is defined) and
          (role_syncthing_data.folders is defined))
 
-- name: config_old
-  include: config_old.yml
-  when: ((role_syncthing is defined ) and
-         (role_syncthing.inventory_hosts is defined ) and
-         (role_syncthing.folders.path is defined ) and
-         (role_syncthing.folders.id is defined ))
-
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

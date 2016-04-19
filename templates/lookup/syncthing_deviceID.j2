@@ -20,7 +20,26 @@
       u'dynamic'
     ],
     u'deviceID': u'{{item}}',
-    u'name': u'{{item}}'
+{%    set name_item = [] %}
+{%    for z in role_syncthing_data.folders %}
+{%      for v in z.inventory_hosts %}
+{%        if hostvars[v].syncthing_myID is defined %}
+{%          if hostvars[v].syncthing_myID == item %}
+{%            set _ = name_item.append(v) %}
+{%          endif %}
+{%        endif %}
+{%      endfor %}
+{%      if z.devices_add is defined %}
+{%        for y in z.devices_add %}
+{%          for x in y %}
+{%            if x.id == item %}
+{%              set _ = name_item.append(x.name) %}
+{%            endif %}
+{%          endfor %}
+{%        endfor %}
+{%      endif %}
+{%    endfor %}
+    u'name': u'{{name_item.0}}'
 }] +
 {%  endif %}
 []
