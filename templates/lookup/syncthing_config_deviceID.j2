@@ -1,0 +1,84 @@
+{% if syncthing_config_deviceID is defined %}
+{%  for y in syncthing_config_deviceID %}
+{%    for x in y %}
+  - '{{ x }}':
+{%      for z in y[x] %}
+      - '{{ z }}'
+{%      endfor %}
+{%    endfor %}
+{%  endfor %}
+{% endif %}
+
+  - '{{item.id}}':
+{%  for z in item.inventory_hosts %}
+{%    if hostvars[z].syncthing_myID is defined %}
+{%      set not_duplicate = [] %}
+{%      for y in syncthing_config_old.folders if not not_duplicate %}
+{%        if item.id == y.id %}
+{%          for x in y.devices if not not_duplicate %}
+{%            if x.deviceID in hostvars[z].syncthing_myID %}
+{%              set _ = not_duplicate.append(1) %}
+{%            endif %}
+{%          endfor %}
+{%        endif %}
+{%      endfor %}
+{%      if item.devices_del is defined %}
+{%        for x in item.devices_del %}
+{%          for y in x %}
+{%            if hostvars[z].syncthing_myID == y.id %}
+{%              set _ = not_duplicate.append(1) %}
+{%            endif %}
+{%          endfor %}
+{%        endfor %}
+{%      endif %}
+{%      if item.devices_add is defined %}
+{%        for x in item.devices_add %}
+{%          for y in x %}
+{%            if hostvars[z].syncthing_myID == y.id %}
+{%              set _ = not_duplicate.append(1) %}
+{%            endif %}
+{%          endfor %}
+{%        endfor %}
+{%      endif %}
+{%      if not not_duplicate %}
+      - '{{ hostvars[z].syncthing_myID }}'
+{%      endif %}
+{%    endif %}
+{%  endfor %}
+
+{%  for z in syncthing_config_old.folders %}
+{%    if item.id == z.id %}
+{%      for y in z.devices %}
+{%        set not_duplicate = [] %}
+{%        if item.devices_del is defined %}
+{%          for x in item.devices_del %}
+{%            for w in x %}
+{%              if y.deviceID == w.id %}
+{%                set _ = not_duplicate.append(1) %}
+{%              endif %}
+{%            endfor %}
+{%          endfor %}
+{%        endif %}
+{%        if item.devices_add is defined %}
+{%          for x in item.devices_add %}
+{%            for w in x %}
+{%              if y.deviceID == w.id %}
+{%                set _ = not_duplicate.append(1) %}
+{%              endif %}
+{%            endfor %}
+{%          endfor %}
+{%        endif %}
+{%        if not not_duplicate %}
+      - '{{ y.deviceID }}'
+{%        endif %}
+{%      endfor %}
+{%    endif %}
+{%  endfor %}
+
+{%  if item.devices_add is defined %}
+{%    for z in item.devices_add %}
+{%      for y in z %}
+      - '{{ y.id }}'
+{%      endfor %}
+{%    endfor %}
+{%  endif %}
