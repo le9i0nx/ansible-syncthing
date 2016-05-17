@@ -1,6 +1,20 @@
 ---
 
-dependencies: []
+dependencies:
+
+    - role: debops.ferm
+      tags: [ 'role::ferm' ]
+      ferm_dependent_rules:
+        - '{{ syncthing__ferm_dependent_rules }}'
+      when: syncthing__dependencies_ferm | bool
+
+    - role: debops.apt
+      tags: [ 'role::apt' ]
+      apt__host_keys:
+        - '{{ syncthing__repositories_key }}'
+      apt__host_repositories:
+        - '{{ syncthing__repositories }}'
+      when: syncthing__dependencies_apt | bool
 
 galaxy_info:
   author: 'Aleksej Gavrilov'

@@ -24,10 +24,17 @@ syncthing_architecture: {"x86_64": "amd64", "x86": "386"}
 syncthing_system: {"Linux":"linux"}
 syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthing_architecture[ansible_architecture] }}-v{{syncthing_releases}}'
 
+
+# Enable execution of ``le9i0nx.syncthing`` role dependencies. This variable can be
+# used in playbooks to disable hardcoded dependencies during transition to
+# playbook-based ones.
+syncthing__dependencies_ferm: False
+syncthing__dependencies_apt: True
+
 # .. envvar:: syncthing_ferm_dependent_rules
 #
 # Configuration for ``iptables`` firewall managed by ``ferm``.
-syncthing_ferm_dependent_rules:
+syncthing__ferm_dependent_rules:
 
   - type: 'accept'
     dport: [ '22000' ]
@@ -44,11 +51,11 @@ syncthing_ferm_dependent_rules:
     accept_any: True
 
 # apt-key adv --list-public-keys --with-fingerprint --with-colons
-syncthing_repositories_key:
+syncthing__repositories_key:
 
   - url: "https://syncthing.net/release-key.txt"
 
-syncthing_repositories:
+syncthing__repositories:
 
   - repo: 'deb http://apt.syncthing.net/ syncthing release'
 
