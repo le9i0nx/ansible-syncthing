@@ -19,6 +19,7 @@
 {%  if not not_install_folders %}
 [{
     u'id': '{{item.id}}',
+    u'label': '{{item.id}}',
     u'path': u'{{item.path}}',
     u'devices':
 {%  for i in syncthing_config_deviceID %}
@@ -31,10 +32,11 @@
 {%    endfor %}
 {%  endfor %}
       [],
+    u'type': 'readwrite',
+    u'disableTempIndexes': False,
     u'autoNormalize': True,
     u'ignoreDelete': False,
     u'ignorePerms': False,
-    u'readOnly': False,
     u'copiers': 0,
     u'hashers': 0,
     u'invalid': u'',
