@@ -14,6 +14,8 @@ dependencies:
         - '{{ syncthing__repositories_key }}'
       apt__host_repositories:
         - '{{ syncthing__repositories }}'
+      apt__host_packages:
+        - 'ca-certificates'
       when: syncthing__dependencies_apt | bool
 
 galaxy_info:
