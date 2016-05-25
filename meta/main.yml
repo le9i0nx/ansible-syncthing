@@ -30,6 +30,7 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - trusty
+    - xenial
   categories:
     - system
     - packaging
