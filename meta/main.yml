@@ -3,13 +3,21 @@
 dependencies:
 
     - role: debops.ferm
-      tags: [ 'role::ferm' ]
+      tags:
+        - 'depend::ferm'
+        - 'depend::ferm:syncthing'
+        - 'depend-of::syncthing'
+        - 'type::dependency'
       ferm_dependent_rules:
         - '{{ syncthing__ferm_dependent_rules }}'
       when: syncthing__dependencies_ferm | bool
 
     - role: debops.apt
-      tags: [ 'role::apt' ]
+      tags:
+        - 'depend::apt'
+        - 'depend::apt:syncthing'
+        - 'depend-of::syncthing'
+        - 'type::dependency'
       apt__host_keys:
         - '{{ syncthing__repositories_key }}'
       apt__host_repositories:
