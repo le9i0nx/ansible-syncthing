@@ -31,7 +31,7 @@ syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthi
 syncthing__dependencies_ferm: False
 syncthing__dependencies_apt: True
 
-# .. envvar:: syncthing_ferm_dependent_rules
+# .. envvar:: syncthing__ferm_dependent_rules
 #
 # Configuration for ``iptables`` firewall managed by ``ferm``.
 syncthing__ferm_dependent_rules:
