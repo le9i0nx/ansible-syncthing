@@ -34,7 +34,7 @@
     group:  '{{ item.group  | default("root") }}'
     mode:   '{{ item.mode   | default("0755") }}'
   with_items: "{{ role_syncthing_data.folders }}"
-  when: ((item.path is defined)
+  when: ((item.path|d())
         {% if item.devices_del is defined %}
           {% for i in item.devices_del %}
             and ( "{{ syncthing_myID }}" not in "{{ i }}" )
@@ -45,7 +45,7 @@
   set_fact:
     syncthing_config_deviceID: "{{ lookup('template', 'lookup/syncthing_config_deviceID.j2') | from_yaml }}"
   with_items: "{{ role_syncthing_data.folders }}"
-  when: ((item.path is defined)
+  when: ((item.path|d())
         {% if item.devices_del is defined %}
           {% for i in item.devices_del %}
             and ( "{{ syncthing_myID }}" not in "{{ i }}" )
@@ -56,7 +56,7 @@
   set_fact:
     syncthing_config: "{ {{ lookup('template', 'lookup/syncthing_config_folders.j2') }} }"
   with_items: "{{ role_syncthing_data.folders }}"
-  when: (item.path is defined)
+  when: item.path|d()
 
 - name: Read all activ deviceID
   set_fact:

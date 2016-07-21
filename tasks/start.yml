@@ -9,7 +9,7 @@
     mode: '0644'
   notify:
     - reload systemd
-  when: ((ansible_service_mgr is defined) and
+  when: ((ansible_service_mgr|d()) and
         (ansible_service_mgr in [ "systemd" ]) and
         (ansible_pkg_mgr != "apt") and
         (ansible_distribution != "Debian" ))
@@ -21,7 +21,7 @@
     state: 'started'
   notify:
     - restart syncthing
-  when: ((ansible_service_mgr is defined) and
+  when: ((ansible_service_mgr|d()) and
         (ansible_service_mgr in [ "systemd" ]))
 
 - name: copy the init.d file
@@ -33,14 +33,14 @@
     mode: '0755'
   notify:
     - restart syncthing init.d
-  when: ((ansible_service_mgr is defined) and
+  when: ((ansible_service_mgr|d()) and
         (ansible_service_mgr != "systemd" ))
   register: role_syncthing_install_init
 
 - name: install the init.d file
   shell: update-rc.d syncthing_{{role_syncthing_user}} defaults
   when: ((role_syncthing_install_init) and
-        (ansible_service_mgr is defined) and
+        (ansible_service_mgr|d()) and
         (ansible_service_mgr != "systemd" ))
 
 - meta: flush_handlers
