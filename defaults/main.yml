@@ -44,7 +44,7 @@ syncthing__ferm_dependent_rules:
     accept_any: True
 
   - type: 'accept'
-    dport: [ '22027' ]
+    dport: [ '21027' ]
     protocol: [ 'udp' ]
     role: 'le9i0nx.syncthing'
     name: 'udp'

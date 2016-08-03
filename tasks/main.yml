@@ -16,7 +16,7 @@
 
 - name: config
   include: config.yml
-  when: ((role_syncthing_data is defined) and
-         (role_syncthing_data.folders is defined))
+  when: ((role_syncthing_data|d()) and
+         (role_syncthing_data.folders|d()))
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

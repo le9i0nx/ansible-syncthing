@@ -9,7 +9,7 @@
     mode:   '{{ item.mode | default("0755") }}'
   with_items:
     - { path: '{{syncthing_path}}/', owner: '{{ role_syncthing_user }}', mode: '0755' }
-  when: (item.path is defined and item.path)
+  when: (item.path|d() and item.path)
 
 - name: releases check
   shell: 'wget -qO - "https://api.github.com/repos/syncthing/syncthing/releases" | grep "tag_name" | grep -v "-" | sed -n "1p" | grep -E -o "[0-9]+\.[0-9]+\.[0-9]+"'
