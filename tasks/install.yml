@@ -8,8 +8,12 @@
   include: os_yum.yml
   when: ansible_pkg_mgr == 'yum'
 
+- name: pacman based distros
+  include: os_pacman.yml
+  when: ansible_pkg_mgr == 'pacman'
+
 - name: other based distros
   include: os_other.yml
-  when: ansible_os_family != 'Debian'
+  when: (ansible_os_family != 'Debian' and ansible_os_family != 'Archlinux')
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
