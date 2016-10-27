@@ -1,0 +1,7 @@
+---
+
+- name: install required packages
+  package:
+    name: 'syncthing'
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
