@@ -3,6 +3,7 @@
 - name: get api key
   shell: grep apikey ~/.config/syncthing/config.xml | sed -n 's:.*<apikey>\(.*\)</apikey>.*:\1:p'
   register: syncthing_apikey_raw
+  changed_when: false
   become: yes
   become_user: "{{ role_syncthing_user }}"
 
