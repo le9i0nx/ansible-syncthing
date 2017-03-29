@@ -51,6 +51,7 @@ syncthing__repositories_key:
 syncthing__repositories:
 
   - repo: 'deb http://apt.syncthing.net/ syncthing release'
+    mode: '0444'
 
 #old
 syncthing_path: '/usr/local/bin'
