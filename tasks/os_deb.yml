@@ -14,4 +14,15 @@
   set_fact:
     syncthing_path: "/usr/bin"
 
+
+- name: fix max_user_watches
+  copy: 
+    content: 'fs.inotify.max_user_watches=204800'
+    dest: /etc/sysctl.d/90-syncthing.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - 'sysctl add'
+
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
