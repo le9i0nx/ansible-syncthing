@@ -18,13 +18,6 @@ role_syncthing_data:
       devices_del:
         - id: ""
 
-#old
-syncthing_path: '/usr/local/bin'
-syncthing_architecture: {"x86_64": "amd64", "x86": "386"}
-syncthing_system: {"Linux":"linux"}
-syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthing_architecture[ansible_architecture] }}-v{{syncthing_releases}}'
-
-
 # Enable execution of ``le9i0nx.syncthing`` role dependencies. This variable can be
 # used in playbooks to disable hardcoded dependencies during transition to
 # playbook-based ones.
@@ -58,5 +51,13 @@ syncthing__repositories_key:
 syncthing__repositories:
 
   - repo: 'deb http://apt.syncthing.net/ syncthing release'
+    mode: '0444'
+
+#old
+syncthing_path: '/usr/local/bin'
+syncthing_architecture: {"x86_64": "amd64", "x86": "386"}
+syncthing_system: {"Linux":"linux"}
+syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthing_architecture[ansible_architecture] }}-v{{syncthing_releases}}'
+# end old
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
