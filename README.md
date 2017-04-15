@@ -5,15 +5,15 @@
 
 ### Installation
 
-This role requires at least Ansible `v2.0.0.1-1`. To install it, run:
+This role requires at least Ansible `v2.2.0`. To install it, run:
 
     ansible-galaxy install le9i0nx.syncthing
 
 ### Documentation
 
-[playbook](https://github.com/le9i0nx/ansible-root/blob/master/service/syncthing.yml)
+[playbook](docs/playbook.md)
 
-[group_vars](https://github.com/le9i0nx/ansible-role-data/blob/master/ansible-syncthing/group_vars/debops_all_hosts.yml)
+[group_vars](docs/group_vars.md)
 
 ### Role dependencies
 
