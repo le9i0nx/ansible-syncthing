@@ -14,9 +14,8 @@
   set_fact:
     syncthing_path: "/usr/bin"
 
-
 - name: fix max_user_watches
-  copy: 
+  copy:
     content: 'fs.inotify.max_user_watches=204800'
     dest: /etc/sysctl.d/90-syncthing.conf
     owner: root

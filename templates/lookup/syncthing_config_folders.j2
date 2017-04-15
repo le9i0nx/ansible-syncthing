@@ -16,6 +16,9 @@
 {%      endfor %}
 {%    endfor %}
 {%  endif %}
+{%  if inventory_hostname not in item.inventory_hosts %}
+{%    set _ = not_install_folders.append(1) %}
+{%  endif %}
 {%  if not not_install_folders %}
 [{
     u'id': '{{item.id}}',
