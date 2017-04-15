@@ -25,8 +25,8 @@ before_install:
   - pip install git+https://github.com/ansible/ansible.git@$ANSIBLE_VER
   - ansible --version
 
-  - ansible all -m setup -u root
-  - ansible-playbook /etc/ansible/test.yml --diff
+  - ansible -i /etc/ansible all -m setup -u root
+  - ansible-playbook -i /etc/ansible /etc/ansible/test.yml --diff -v
 
 script:
   - sleep 1
