@@ -37,9 +37,8 @@ galaxy_info:
     - jessie
   - name: Ubuntu
     versions:
-    - trusty
     - xenial
-  categories:
+  galaxy_tags:
     - system
     - packaging
 
