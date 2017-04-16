@@ -24,7 +24,7 @@ before_install:
   - python test/bin/virt.py
 
   - cd /etc/ansible/ && ansible all -m setup -u root
-  - cd /etc/ansible/ && ansible-playbook --diff -v /etc/ansible/test.yml
+  - cd /etc/ansible/ && ansible-playbook --diff -vvvv /etc/ansible/test.yml
 
 script:
   - sleep 1
