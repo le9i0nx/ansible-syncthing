@@ -24,6 +24,7 @@ dependencies:
         - '{{ syncthing__repositories }}'
       apt__host_packages:
         - 'ca-certificates'
+      apt__original_sources: []
       when: syncthing__dependencies_apt | bool
 
 galaxy_info:
@@ -35,11 +36,11 @@ galaxy_info:
   - name: Debian
     versions:
     - jessie
+    - stretch
   - name: Ubuntu
     versions:
-    - trusty
     - xenial
-  categories:
+  galaxy_tags:
     - system
     - packaging
 

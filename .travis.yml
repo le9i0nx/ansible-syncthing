@@ -17,16 +17,14 @@ before_install:
   - docker info
   - docker version
 
-  - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-role-test
-  - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-role-data  test
-  - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-root       test/default/root
-  - python ansible-role-test/bin/virt.py
-
   - pip install git+https://github.com/ansible/ansible.git@$ANSIBLE_VER
   - ansible --version
 
-  - ansible all -m setup -u root
-  - ansible-playbook --diff -v /etc/ansible/test.yml
+  - git clone --recursive --depth 1 https://github.com/le9i0nx/ansible-role-test test
+  - python test/bin/virt.py
+
+  - cd /etc/ansible/ && ansible all -m setup -u root
+  - cd /etc/ansible/ && ansible-playbook --diff -vvvv /etc/ansible/test.yml
 
 script:
   - sleep 1
