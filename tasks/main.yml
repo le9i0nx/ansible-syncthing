@@ -1,16 +1,7 @@
 ---
 
-- name: install
-  include: install.yml
-  when: role_syncthing_register_install is not defined
-
-- name: install register
-  set_fact:
-    role_syncthing_register_install: ""
-  when: role_syncthing_register_install is not defined
-
-- name: start
-  include: start.yml
+- include: install.yml
+- include: start.yml
 
 - wait_for: port=8384 delay=3 timeout=5
 

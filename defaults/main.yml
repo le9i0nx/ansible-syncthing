@@ -1,5 +1,23 @@
 ---
 
+
+syncthing__package_map:
+  'apt':
+    - 'syncthing'
+    - 'syncthing-inotify'
+    - 'python-httplib2' # ansible url
+  'yum':
+    - 'wget'
+    - 'python-httplib2' # ansible url
+  'pacman':
+    - 'syncthing'
+  'dnf':
+    - 'wget'
+    - 'syncthing'
+    - 'syncthing-inotify'
+    - 'python-httplib2' # ansible url
+
+
 # from which the user starts service
 role_syncthing_user: 'root'
 
@@ -9,7 +27,7 @@ role_syncthing_api: '127.0.0.1:8384'
 # .. envvar:: role_syncthing_data
 #
 role_syncthing_data:
-  forders:
+  folders:
     - inventory_hosts: '{{ groups.syncthing }}'
       path: '/root/Sync'
       id: 'default'
@@ -54,8 +72,8 @@ syncthing__repositories:
     mode: '0444'
 
 #old
-syncthing_path: '/usr/local/bin'
-syncthing_architecture: {"x86_64": "amd64", "x86": "386"}
+syncthing_path: "/usr/bin"
+syncthing_architecture: {"x86_64": "amd64", "x86": "386", "aarch64": "arm64"}
 syncthing_system: {"Linux":"linux"}
 syncthing_http_file: 'syncthing-{{ syncthing_system[ansible_system]}}-{{ syncthing_architecture[ansible_architecture] }}-v{{syncthing_releases}}'
 # end old

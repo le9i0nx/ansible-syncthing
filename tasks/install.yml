@@ -1,19 +1,28 @@
 ---
 
-- name: deb based distros
-  include: os_deb.yml
-  when: ansible_pkg_mgr == 'apt'
+- name: install required packages
+  package:
+    name: '{{ item }}'
+    state: 'present'
+    install_recommends: False
+  with_flattened: "{{ syncthing__package_map[ansible_pkg_mgr] }}"
+  when: (ansible_pkg_mgr == 'apt' or
+         ansible_pkg_mgr == 'yum' or
+         ansible_pkg_mgr == 'pacman')
 
-- name: yum based distros
-  include: os_yum.yml
-  when: ansible_pkg_mgr == 'yum'
-
-- name: pacman based distros
-  include: os_pacman.yml
-  when: ansible_pkg_mgr == 'pacman'
+- name: fix max_user_watches
+  copy:
+    content: 'fs.inotify.max_user_watches=204800'
+    dest: /etc/sysctl.d/90-syncthing.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - 'sysctl add'
 
 - name: other based distros
   include: os_other.yml
-  when: (ansible_os_family != 'Debian' and ansible_os_family != 'Archlinux')
+  when: (ansible_os_family != 'Debian' and
+         ansible_os_family != 'Archlinux')
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

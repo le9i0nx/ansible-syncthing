@@ -1,5 +1,9 @@
 ---
 
+- name: variable redefinition
+  set_fact:
+    syncthing_path: '/usr/local/bin'
+
 - name: Create bin directories
   file:
     path:   '{{ item.path }}'
@@ -44,7 +48,7 @@
 - name: cp bin
   command: cp -f /root/{{syncthing_http_file}}/syncthing {{syncthing_path}}/syncthing
   when: syncthing_releases_install != syncthing_releases
-  notify: [ 'Restart syncthing' ]
+  notify: restart syncthing
 
 - name: check chmod chowen
   file:
