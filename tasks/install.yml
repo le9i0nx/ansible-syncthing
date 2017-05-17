@@ -22,6 +22,7 @@
 
 - name: other based distros
   include: os_other.yml
-  when: (ansible_os_family != 'Debian' or ansible_os_family != 'Archlinux')
+  when: (ansible_os_family != 'Debian' and
+         ansible_os_family != 'Archlinux')
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
