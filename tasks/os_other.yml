@@ -1,5 +1,9 @@
 ---
 
+- name: variable redefinition
+  set_fact:
+    syncthing_path: '/usr/local/bin'
+
 - name: Create bin directories
   file:
     path:   '{{ item.path }}'
