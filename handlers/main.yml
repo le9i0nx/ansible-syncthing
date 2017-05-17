@@ -6,10 +6,8 @@
          (ansible_virtualization_type != "docker" ))
 
 - name: restart syncthing
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: syncthing@{{ role_syncthing_user }}.service
+  shell: systemctl restart syncthing@{{ role_syncthing_user }}.service
+  notify: reload systemd
 
 - name: reload systemd
   shell: systemctl daemon-reload
