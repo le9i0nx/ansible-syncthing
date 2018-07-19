@@ -1,6 +1,7 @@
   u'gui': {{syncthing_config.gui}},
   u'version': {{syncthing_config.version}},
   u'ignoredDevices': {{syncthing_config.ignoredDevices}},
+  u'ignoredFolders': {{syncthing_config.ignoredFolders}},
   u'options': {{syncthing_config.options}},
   u'folders': {{syncthing_config.folders}},
   u'devices': {{syncthing_config.devices}} +
@@ -16,6 +17,12 @@
     u'compression': u'always',
     u'certName': u'',
     u'introducer': False,
+    u'skipIntroductionRemovals': False,
+    u'introducedBy': u'',
+    u'paused': False,
+    u'autoAcceptFolders': False,
+    u'maxSendKbps': 0,
+    u'maxRecvKbps': 0,
     u'addresses': [
       u'dynamic'
     ],
