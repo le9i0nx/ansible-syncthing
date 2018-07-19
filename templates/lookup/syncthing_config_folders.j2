@@ -1,6 +1,7 @@
   u'gui': {{syncthing_config.gui}},
   u'version': {{syncthing_config.version}},
   u'ignoredDevices': {{syncthing_config.ignoredDevices}},
+  u'ignoredFolders': {{syncthing_config.ignoredFolders}},
   u'options': {{syncthing_config.options}},
   u'devices': [],
   u'folders':
@@ -23,19 +24,23 @@
 [{
     u'id': '{{item.id}}',
     u'label': '{{item.id}}',
+    u'filesystemType': u'basic',
     u'path': u'{{item.path}}',
     u'devices':
 {%  for i in syncthing_config_deviceID %}
 {%    for z in i %}
 {%      if z == item.id %}
 {%        for x in i[z] %}
-      [{ u'deviceID': u'{{x}}' }] +
+      [{ u'deviceID': u'{{x}}', u'introducedBy': u'' }] +
 {%        endfor %}
 {%      endif %}
 {%    endfor %}
 {%  endfor %}
       [],
+    u'rescanIntervalS': 3600,
     u'type': 'readwrite',
+    u'fsWatcherEnabled': True,
+    u'fsWatcherDelayS': 10,
     u'disableTempIndexes': False,
     u'autoNormalize': True,
     u'ignoreDelete': False,
@@ -44,13 +49,15 @@
     u'hashers': 0,
     u'invalid': u'',
     u'maxConflicts': -1,
-    u'minDiskFreePct': 1,
+    u'minDiskFree': {
+      u'value': 0,
+      u'unit': u''},
     u'order': u'random',
     u'pullerPauseS': 0,
     u'pullerSleepS': 0,
     u'pullers': 0,
-    u'rescanIntervalS': 60,
     u'scanProgressIntervalS': 0,
+    u'weakHashThresholdPct': 25,
     u'disableSparseFiles': false,
     u'versioning': {
       u'params': {},
