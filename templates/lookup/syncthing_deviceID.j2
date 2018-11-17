@@ -1,7 +1,11 @@
   u'gui': {{syncthing_config.gui}},
   u'version': {{syncthing_config.version}},
+{% if syncthing_config.ignoredDevices is defined %}
   u'ignoredDevices': {{syncthing_config.ignoredDevices}},
+{% endif %}
+{% if syncthing_config.ignoredFolders is defined %}
   u'ignoredFolders': {{syncthing_config.ignoredFolders}},
+{% endif %}
   u'options': {{syncthing_config.options}},
   u'folders': {{syncthing_config.folders}},
   u'devices': {{syncthing_config.devices}} +
