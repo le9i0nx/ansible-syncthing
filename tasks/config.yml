@@ -79,6 +79,7 @@
     HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
     body: "{{ syncthing_config | to_json }}"
     body_format: "json"
+    timeout: 240
   when: syncthing_config != syncthing_config_old
 
 - name: syncthing restart
@@ -87,6 +88,7 @@
     method: POST
     return_content: yes
     HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
+    timeout: 240
   when: syncthing_config != syncthing_config_old
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

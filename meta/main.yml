@@ -8,7 +8,7 @@ dependencies:
         - 'depend::ferm:syncthing'
         - 'depend-of::syncthing'
         - 'type::dependency'
-      ferm_dependent_rules:
+      ferm__dependent_rules:
         - '{{ syncthing__ferm_dependent_rules }}'
       when: syncthing__dependencies_ferm | bool
 
