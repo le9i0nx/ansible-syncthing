@@ -15,7 +15,8 @@
   uri:
     url: "http://{{role_syncthing_api}}/rest/system/config"
     return_content: yes
-    HEADER_X-API-Key: "{{syncthing_apikey}}"
+    headers:
+      X-API-Key: "{{syncthing_apikey}}"
   register: syncthing_config_raw
   check_mode: no
 
@@ -75,8 +76,9 @@
     url: "http://{{role_syncthing_api}}/rest/system/config"
     method: POST
     return_content: yes
-    HEADER_Content-Type: "application/json"
-    HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
+    headers:
+      Content-Type: "application/json"
+      X-API-Key: "{{syncthing_config.gui.apiKey}}"
     body: "{{ syncthing_config | to_json }}"
     body_format: "json"
     timeout: 240
@@ -87,7 +89,8 @@
     url: "http://{{role_syncthing_api}}/rest/system/restart"
     method: POST
     return_content: yes
-    HEADER_X-API-Key: "{{syncthing_config.gui.apiKey}}"
+    headers:
+      X-API-Key: "{{syncthing_config.gui.apiKey}}"
     timeout: 240
   when: syncthing_config != syncthing_config_old
 
